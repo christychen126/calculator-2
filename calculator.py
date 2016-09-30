@@ -8,45 +8,50 @@ calculator program yourself in this file.
 # import all functions from arithmetic module
 from arithmetic import *
 
-
 def process_input(input_string):
-    """ Process the string inputed by user and return operator and number list in a tuple
+    try:
+        tokens = input_string.split()
+        command = tokens[0]
+        numlist = map(int, tokens[1:])
+        return command, numlist
+    except ValueError: 
+        print "Please use numbers after operator."
+        return ["error", "error"]
+    except IndexError:
+        print "Please type something in."
+        return ["error", "error"]
 
-        Split the string inputed by user into a list. Define the first item in the list as operator. 
-        Turn the rest of the items into integers and pack into a string with map function. 
-        Return the operator and the number list as a touple
-        """ 
-    tokens = input_string.split()
-    operator = tokens[0]
-    numlist = map(int, tokens[1:])
-    return operator, numlist
-
+operator_list = ["q", "+", "-", "*", "/", "square", "cube", "pow", "mod"]
 
 # make infinite loop
 while True:
     # reads user input
     input_string = raw_input("> ")
-    #unpack tuple from process_input function
-    operator, numlist = process_input(input_string)
+    command, numlist = process_input(input_string)
 
-    # responses to different user inputs
-    if operator == "q":
+    if not command in operator_list:
+        print "Please type in correct command. \nTry again."
+    elif command == "q":
         break
-    elif operator == "+":
+    elif len(numlist) == 0:
+        print "Please give a number after operator."
+    elif command == "+":
         print add(numlist)
-    elif operator == "-":
+    elif command == "-":
         print subtract(numlist)
-    elif operator == "*":
+    elif command == "*":
         print multiply(numlist)
-    elif operator == "/":
+    elif command == "/":
         print divide(numlist)
-    elif operator == "square":
+    elif command == "square":
         print square(numlist) 
-    elif operator == "cube":
+    elif command == "cube":
         print cube(numlist)
-    elif operator == "pow":
+    elif command == "pow":
         print power(numlist)
-    elif operator == "mod":
+    elif command == "mod":
         print mod(numlist)
+    elif command == "error":
+        print "Try again."
     else:
-        print "I don't understand"
+        print "Please type in a command first. \nTry again."
